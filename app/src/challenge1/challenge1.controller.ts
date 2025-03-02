@@ -1,5 +1,6 @@
 import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { Challenge1Service } from './challenge1.service';
+import { ApiBody, ApiResponse } from '@nestjs/swagger';
 
 @Controller()
 export class Challenge1Controller {
@@ -7,7 +8,9 @@ export class Challenge1Controller {
 
   @Post('/challenge-1')
   @HttpCode(200)
-  getResult(@Body() body: number[]) {
+  @ApiBody({ isArray: true, schema: { items: { type: "number" } } })
+  @ApiResponse({ type: Number })
+  getResult(@Body() body: number[]): number {
     return this.challenge1Service.getResult(body);
   }
 }
